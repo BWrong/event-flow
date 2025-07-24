@@ -1,0 +1,169 @@
+export default[
+  {
+    "props": {
+      "params": [],
+      "returns": {},
+      "eventName": "onClick",
+      "eventLabel": "鼠标单击时触发",
+      "eventComponentId": "a63d3276",
+      "eventComponentType": "button"
+    },
+    "displayName": "button_鼠标单击时触发_3435c12e",
+    "id": "flow_3435c12e",
+    "children": [
+      {
+        "id": "node_3435c12e_46627145",
+        "type": "FlowStartNode",
+        "name": "onClick 鼠标单击时触发",
+        "description": "当 button 鼠标单击时触发",
+        "props": {
+          "inputs": [],
+          "actionDescription": "onClick 鼠标单击时触发"
+        }
+      },
+      {
+        "id": "node_3435c12e_66312333",
+        "type": "FlowBranchNode",
+        "name": "条件分支",
+        "description": "",
+        "props": {},
+        "children": [
+          {
+            "id": "branch_router_2d153366",
+            "type": "FlowBranchRouter",
+            "name": "条件分支1",
+            "description": "",
+            "props": {
+              "conditionType": "structured",
+              "nodeId": "node_3435c12e_66312333",
+              "structured": {
+                "combineType": "and",
+                "combineTypeName": "且",
+                "criteriaList": [
+                  {
+                    "id": "bwf-c-u-3351f455",
+                    "operator": "empty",
+                    "targetType": "value",
+                    "targetVariableType": "stores",
+                    "target": "eeee",
+                    "operatorName": "为空",
+                    "sourceType": "value",
+                    "sourceVariableType": "flowTemp",
+                    "targetDataType": {
+                      "type": "object",
+                      "itemTypes": [
+                        {
+                          "type": "string",
+                          "name": "name"
+                        }
+                      ]
+                    },
+                    "sourceName": "",
+                    "ruleText": "eeee为空"
+                  }
+                ],
+                "id": ""
+              },
+              "valueText": "(eeee为空)"
+            },
+            "children": [
+              {
+                "id": "node_3435c12e_41264224",
+                "type": "FlowConsoleNode",
+                "name": "打印日志",
+                "description": "",
+                "props": {
+                  "logType": "warning",
+                  "content": {
+                    "expression": "\"eeee的值是空的\"",
+                    "expressionFull": {
+                      "text": "\"eeee的值是空的\"",
+                      "marks": [
+                        {
+                          "className": "CodeMirror-composing",
+                          "from": {
+                            "line": 0,
+                            "ch": 9
+                          },
+                          "to": {
+                            "line": 0,
+                            "ch": 10
+                          }
+                        }
+                      ],
+                      "cursor": {
+                        "line": 0,
+                        "ch": 10
+                      }
+                    }
+                  },
+                  "valueText": "已设置"
+                },
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "branch_router_32336263",
+            "type": "FlowBranchRouter",
+            "name": "默认分支",
+            "description": "当其他条件不满足时执行该分支",
+            "props": {
+              "isDefaultBranch": true,
+              "nodeId": "node_3435c12e_66312333"
+            },
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "node_3435c12e_1536226a",
+        "type": "FlowConsoleNode",
+        "name": "打印日志",
+        "description": "",
+        "props": {
+          "logType": "warning",
+          "content": {
+            "expression": "\"测试变量eeee.name的值是:\"+#{eeee.name}",
+            "expressionFull": {
+              "text": "\"测试变量eeee.name的值是:\"+eeee.name",
+              "marks": [
+                {
+                  "className": "my-snippet",
+                  "value": "eeee.name",
+                  "name": "eeee.name",
+                  "markType": "field",
+                  "extra": "{\"variableType\":\"stores\"}",
+                  "from": {
+                    "line": 0,
+                    "ch": 20,
+                    "sticky": null
+                  },
+                  "to": {
+                    "line": 0,
+                    "ch": 29,
+                    "sticky": null
+                  }
+                }
+              ],
+              "cursor": {
+                "line": 0,
+                "ch": 20
+              }
+            }
+          },
+          "valueText": "已设置"
+        },
+        "children": []
+      },
+      {
+        "id": "node_3435c12e_3616ec65",
+        "type": "FlowEndNode",
+        "name": "结束节点",
+        "description": "流程结束",
+        "props": {}
+      }
+    ],
+    "variables": []
+  }
+]
