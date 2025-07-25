@@ -67,9 +67,9 @@ function handlePositionError(position: {
     behavior: 'smooth', // 平滑滚动 (可选)
     block: 'center'      // 垂直方向对齐方式 ('start', 'center', 'end', or 'nearest')
   });
-  nodeElement.classList.add('node-flash');
+  nodeElement?.classList.add('node-flash');
   setTimeout(() => {
-    nodeElement.classList.remove('node-flash');
+    nodeElement?.classList.remove('node-flash');
   }, 1500);
 }
 </script>

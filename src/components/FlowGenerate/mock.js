@@ -8,7 +8,7 @@ module.exports = [
       eventComponentId: '49225575',
       eventComponentType: 'input',
     },
-    displayName: 'input_值被改变时触发_36562332',
+    name: 'input_值被改变时触发_36562332',
     id: 'flow_36562332',
     children: [
       {
@@ -65,7 +65,7 @@ module.exports = [
       eventComponentId: '49225575',
       eventComponentType: 'input',
     },
-    displayName: 'input_失去焦点时触发_2e86949',
+    name: 'input_失去焦点时触发_2e86949',
     id: 'flow_2e869499',
     children: [
       {

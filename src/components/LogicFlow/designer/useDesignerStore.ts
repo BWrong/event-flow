@@ -3,11 +3,11 @@ import { message } from 'ant-design-vue'
 import { computed, markRaw, nextTick, reactive } from 'vue'
 import { convertTreeToObject, guid } from '../common/helper'
 import {
-  type EventFlowProps,
   type Flow,
   type FlowMaterial,
   type FlowMaterialMap,
   type FlowNode,
+  type FlowProps,
   type FlowSetterProps,
   type FlowVariables,
   type ValidateInfo,
@@ -267,16 +267,14 @@ function zoomOut() {
 function zoomReset() {
   state.zoom = 100
 }
-export type EventFlow = Flow<EventFlowProps>
-function createStartNode(flowId: string, props: EventFlowProps): FlowNode {
+function createStartNode(flowId: string, props: FlowProps): FlowNode {
   const id = guid()
-  const originName = `${props.eventName} ${props.eventLabel}`
   const params = props.params || []
   return {
     id: `node_${flowId}_${id}`,
     type: 'FlowStartNode',
-    name: originName,
-    description: `当 ${props.eventComponentType} ${props.eventLabel}`,
+    name: '开始节点',
+    description: '流程开始',
     props: {
       inputs: params.map((item: any) => {
         return {
@@ -287,7 +285,6 @@ function createStartNode(flowId: string, props: EventFlowProps): FlowNode {
           description: item.description,
         }
       }),
-      actionDescription: originName,
     },
   }
 }
@@ -301,7 +298,7 @@ function createEndNode(flowId: string): FlowNode {
     props: {},
   }
 }
-function ganerInitFlowChildren(flowId: string, props: EventFlowProps) {
+function ganerInitFlowChildren(flowId: string, props: FlowProps) {
   return [createStartNode(flowId, props), createEndNode(flowId)]
 }
 export default function () {

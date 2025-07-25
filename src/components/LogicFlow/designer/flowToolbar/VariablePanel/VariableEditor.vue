@@ -93,7 +93,7 @@ watch(
 
 <template>
   <a-modal :open="visible" :mask-closable="false" destroy-on-close :title="type === 'add' ? '新增变量' : '编辑变量'"
-    :confirm-loading="confirmLoading" :width="600" @ok="handleOk" @cancel="handleCancel">
+    :confirm-loading="confirmLoading" :width="600" ok-text="确定" cancel-text="取消" @ok="handleOk" @cancel="handleCancel">
     <AForm style="overflow-x: hidden" ref="formRef" :model="formState" :rules="rules" layout="vertical">
       <a-row :gutter="20">
         <a-col :span="12">

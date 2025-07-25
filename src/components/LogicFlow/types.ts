@@ -149,7 +149,7 @@ export interface FlowProps {
 }
 export interface Flow {
   id: string
-  displayName: string
+  name: string
   props: FlowProps
   children: FlowNode[]
   variables: FlowVariables[]

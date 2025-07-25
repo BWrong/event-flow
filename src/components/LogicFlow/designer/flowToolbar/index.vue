@@ -15,7 +15,7 @@
       <a-space>
         <MinusCircleOutlined class="action-icon" @click="designerStore.zoomOut" />
         <span size="small" class="flow-zoom" @dblclick="designerStore.zoomReset">{{ designerStore.state.zoom
-        }}%</span>
+          }}%</span>
         <PlusCircleOutlined class="action-icon" @click="designerStore.zoomIn" />
       </a-space>
       <slot name="toolbar-left"></slot>

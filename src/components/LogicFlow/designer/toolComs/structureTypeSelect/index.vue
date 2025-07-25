@@ -32,8 +32,8 @@ const rootMenu = ref<IMenuItem[]>([
     key: 'type_' + guid(),
     isRoot: true,
     children: [
-      { name: 'array', type: 'array', key: 'type_' + guid() }
-      // { name: 'object', type: 'object', key: 'type_' + guid() },
+      { name: 'array', type: 'array', key: 'type_' + guid() },
+      { name: 'object', type: 'object', key: 'type_' + guid() },
     ]
   },
   // 目前仅支持apihub
@@ -42,7 +42,10 @@ const rootMenu = ref<IMenuItem[]>([
     type: 'object',
     isRoot: true,
     key: 'type_' + guid(),
-    children: [{ name: 'apihub', type: 'apihub', key: 'type_' + guid() }]
+    children: [
+      { name: 'object', type: 'object', key: 'type_' + guid() },
+      // { name: 'apihub', type: 'apihub', key: 'type_' + guid() }
+    ]
   }
 ])
 // 平铺结构
@@ -73,13 +76,7 @@ const props = withDefaults(
     allowParentSelect: true
   }
 )
-const apiHubVisible = ref(false)
 const emit = defineEmits(['update:value'])
-// 获取变量
-// const variableList = computed(() => {
-//   const temp = processFlow.value.functionConfig.content.props?.variableList;
-//   return temp.filter((item: any) => item?.variableType === 'intermediate');
-// });
 // 兼容显示(兼容集合显示)
 const displayValue = computed(() => {
   return getItemType(props.value)
@@ -93,42 +90,36 @@ const handleMenuSelect = ({ key, keyPath }: any) => {
     dropdownOpen.value = false
     return
   }
-  if (selectMenu.type === 'apihub') {
-    // apihub采用弹框选择
-    apiHubVisible.value = true
-  } else {
-    // 根据key获取父级集合
-    const parentMenusList = keyPath
-      .map((pKey: string) => {
-        const target = flattedMenus.value.find((item: IMenuItem) => item.key === pKey)
-        return target || null
-      })
-      .filter((item: IMenuItem | null) => !!item)
-    console.log(parentMenusList)
-    if (parentMenusList.length > 0) {
-      const rootItem = parentMenusList.find((item: IMenuItem) => item.isRoot)
-      if (rootItem && rootItem.type === 'set') {
-        // 这里排除root层
-        const result = buildTree(
-          parentMenusList.filter((item: IMenuItem) => !item.isRoot),
-          {
-            rowNames: { id: 'key', pId: 'pKey', children: 'itemTypes' },
-            transformRow: (row: any) => {
-              return {
-                type: row.type // 这里只要type
-              }
+  // 根据key获取父级集合
+  const parentMenusList = keyPath
+    .map((pKey: string) => {
+      const target = flattedMenus.value.find((item: IMenuItem) => item.key === pKey)
+      return target || null
+    })
+    .filter((item: IMenuItem | null) => !!item)
+  console.log(parentMenusList)
+  if (parentMenusList.length > 0) {
+    const rootItem = parentMenusList.find((item: IMenuItem) => item.isRoot)
+    if (rootItem && rootItem.type === 'set') {
+      // 这里排除root层
+      const result = buildTree(
+        parentMenusList.filter((item: IMenuItem) => !item.isRoot),
+        {
+          rowNames: { id: 'key', pId: 'pKey', children: 'itemTypes' },
+          transformRow: (row: any) => {
+            return {
+              type: row.type // 这里只要type
             }
           }
-        )
-        console.log(result)
-        emit('update:value', result?.[0])
-      } else {
-        emit('update:value', {
-          type: selectMenu.type
-        })
-      }
+        }
+      )
+      console.log(result)
+      emit('update:value', result?.[0])
+    } else {
+      emit('update:value', {
+        type: selectMenu.type
+      })
     }
-    // 这里对结构进行组装
   }
   dropdownOpen.value = false
 }
@@ -155,14 +146,6 @@ const handleMenuSelect = ({ key, keyPath }: any) => {
           <template v-for="item in rootMenu" :key="item.key">
             <SiderItem :menu-info="item"></SiderItem>
           </template>
-
-          <!-- <a-menu-divider></a-menu-divider>
-          <a-menu-item key="add-var">
-            <span class="text-[var(--ant-colorPrimary)]">
-              <icon-font type="icon-plus"></icon-font>
-              新增变量
-            </span>
-          </a-menu-item> -->
         </AMenu>
       </template>
     </ADropdown>

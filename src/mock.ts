@@ -1,5 +1,7 @@
 export default {
   props: {
+    name: '流程1',
+    id: 'flow_3435c12e',
     params: [
       {
         name: 'param1',
@@ -14,17 +16,14 @@ export default {
     },
     meta: {},
   },
-  displayName: 'button_鼠标单击时触发_3435c12e',
-  id: 'flow_3435c12e',
   children: [
     {
       id: 'node_3435c12e_46627145',
       type: 'FlowStartNode',
-      name: 'onClick 鼠标单击时触发',
-      description: '当 button 鼠标单击时触发',
+      name: '开始节点',
+      description: '流程开始',
       props: {
         inputs: [],
-        actionDescription: 'onClick 鼠标单击时触发',
       },
     },
     {
