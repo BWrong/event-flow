@@ -1,7 +1,8 @@
 export default {
+  name: '流程1',
+  id: 'flow_3435c12e',
+  meta: {},
   props: {
-    name: '流程1',
-    id: 'flow_3435c12e',
     params: [
       {
         name: 'param1',
@@ -14,7 +15,6 @@ export default {
       return1: '返回1',
       return2: '返回2',
     },
-    meta: {},
   },
   children: [
     {

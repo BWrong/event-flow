@@ -94,7 +94,7 @@ export interface FlowMaterial<
 > {
   name: string
   type: FlowNodeType
-  icon: Component | string
+  icon: Component
   group: string
   noder?: Component
   setter?: Component
@@ -145,7 +145,6 @@ export interface FunctionParam {
 export interface FlowProps {
   params: FunctionParam[]
   return: Record<string, string>
-  meta: Record<string, any>
 }
 export interface Flow {
   id: string
@@ -153,6 +152,7 @@ export interface Flow {
   props: FlowProps
   children: FlowNode[]
   variables: FlowVariables[]
+  meta: Record<string, any>
 }
 
 export type ConditionOperator = 'not_empty' | 'empty' | 'equals' | 'not_equals'
@@ -201,4 +201,13 @@ export interface FlowBranchRouter {
     valueText?: string
   }
   children: FlowNode[]
+}
+// 错误信息面板
+export interface ErrorInfoItem {
+  type: string
+  position: {
+    name: string
+    id: string
+  }
+  messages: string
 }

@@ -100,6 +100,8 @@ function createNode(flowId: string, material: FlowMaterial): FlowNode {
 }
 // 添加节点
 function addNode(material: FlowMaterial, curIndex: number, parentList: FlowNode[]) {
+  console.log('addNode', state)
+
   // 去掉flow_前缀
   const flowId = state.flowData!.id.replace('flow_', '')
   const node = createNode(flowId, material)

@@ -7,7 +7,7 @@
       :class="{ selected: data.id === state.editNode?.id, autowidth: materialInfo?.config?.nodeAutoWidth, error: checkInfo?.type === 'error', warning: checkInfo?.type === 'warning' }"
       :id="data.id" v-else @click.stop>
       <div class="flow-node-toolbar">
-        <a-popover title="配置错误" :get-popup-container="el => el.parentElement.parentElement"
+        <a-popover title="配置错误" :get-popup-container="el => el.parentElement?.parentElement!"
           v-if="checkInfo?.type !== 'default'">
           <template #content>
             <p class="flow-node-error-message" v-for="item in checkInfo?.messages" :key="item">{{ item }}</p>
@@ -17,7 +17,7 @@
         </a-popover>
         <EditOutlined class="flow-node-toolbar-item" v-if="allowEdit" @click="handleEditNode" />
         <a-popconfirm v-if="allowDelete" title="确定删除该节点？" ok-text="确定" cancel-text="取消" @confirm="handleDeleteNode"
-          :get-popup-container="el => el.parentElement.parentElement" :overlayStyle="{ width: '160px' }"
+          :get-popup-container="el => el.parentElement?.parentElement!" :overlayStyle="{ width: '160px' }"
           okType="danger">
           <DeleteOutlined class="flow-node-toolbar-item danger" />
         </a-popconfirm>
@@ -25,7 +25,7 @@
       <div class="flow-node-box" @click.stop="handleEditNode">
         <div class="flow-node-title">
           <div class="flow-node-title-left">
-            <FlowNodeIcon :icon="icon" />
+            <FlowNodeIcon :icon="icon!" />
             <span class="flow-node-name">{{ data.name }}</span>
           </div>
           <UpOutlined class="flow-node-collapse" :class="{ collapsed: collapsed }" @click.stop="handleCollapse"
@@ -68,7 +68,7 @@ const theme = computed(() => state.theme)
 const allowEdit = computed(() => materialInfo.value?.config?.allowEdit ?? true)
 const allowDelete = computed(() => materialInfo.value?.config?.allowDelete ?? true)
 const isLast = computed(() => props.index === props.parentList.length - 1);
-const isRootLast = computed(() => props.data.id === state.flowData.children.slice(-1)[0]?.id); // 是否是根节点最后一个节点
+const isRootLast = computed(() => props.data.id === state.flowData!.children.slice(-1)[0]?.id); // 是否是根节点最后一个节点
 const checkInfo = computed(() => state.validateInfo[props.data.id] || { type: 'default', messages: [] })
 function handleEditNode() {
   if (allowEdit.value) {
@@ -217,6 +217,7 @@ function handleCollapse() {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: #555;
   }
 
   .flow-node-collapse {

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { FlowVariables } from '@/components/LogicFlow/types';
-import { CloseOutlined } from '@ant-design/icons-vue';
+import { CloseOutlined, PlusCircleOutlined } from '@ant-design/icons-vue';
 import { groupBy } from 'lodash-es';
 import { computed, ref } from 'vue';
-import { getItemType } from '../../../common/resolveDs';
+import { getItemType } from '../../../common/helper';
 import useDesignerStore from '../../useDesignerStore';
 import VariableEditor from './VariableEditor.vue';
 import VariableItem from './VariableItem.vue';
@@ -75,12 +75,12 @@ const variableGroup = computed(() => [
       <a-flex align="center" justify="space-between" class="header">
         <span>变量列表</span>
         <a-space>
+          <PlusCircleOutlined class="cursor-pointer" size="18px" @click="handleAddVariable" />
           <CloseOutlined class="cursor-pointer" size="18px" @click="visible = false" />
         </a-space>
       </a-flex>
       <div style="height: calc(100% - 48px)" class="variable-body">
-        <AButton type="primary" block @click="handleAddVariable"> 新增变量 </AButton>
-        <a-collapse ghost>
+        <a-collapse :ghost="true">
           <a-collapse-panel v-for="group in variableGroup" :key="group.key" :header="group.title">
             <VariableItem v-for="item in group.children" :key="item.name" @trigger-item-click="detailRow = item"
               @edit-item="handleEditItem" :showOpt="item.variableType === 'flow'" :item="item" />
@@ -159,11 +159,11 @@ const variableGroup = computed(() => [
     height: 40px;
     padding: 10px;
     font-weight: bold;
+    color: #555;
   }
 
   .variable-body {
     overflow-y: auto;
-    padding: 10px;
     width: 100%;
     height: 100%;
     position: relative;

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue'
 import { Modal } from 'ant-design-vue'
-import { getItemType } from '../../../common/resolveDs'
+import { getItemType } from '../../../common/helper'
 import type { FlowVariables } from '../../../types'
 import useDesignerStore from '../../useDesignerStore'
 withDefaults(

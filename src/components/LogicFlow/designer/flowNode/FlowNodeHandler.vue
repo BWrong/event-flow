@@ -1,6 +1,6 @@
 <template>
   <div class="flow-node-handler-wrapper" :class="{ 'hide-arrow': hideArrow }" @click.stop>
-    <a-popover placement="right" :arrow="{ pointAtCenter: true }" :get-popup-container="el => el.parentElement">
+    <a-popover placement="right" :arrow="{ pointAtCenter: true }" :get-popup-container="el => el.parentElement!">
       <template #content>
         <div class="flow-add-nodes">
           <div v-for="(item, key) in materials" :key="key" class="flow-add-nodes-group">
@@ -32,7 +32,7 @@
 import { Popover as APopover } from 'ant-design-vue';
 import { computed } from 'vue';
 import { groupBy } from '../../common/helper';
-import { FlowMaterial } from '../../types';
+import type { FlowMaterial } from '../../types';
 import useDesignerStore from '../useDesignerStore';
 import FlowNodeIcon from './FlowNodeIcon.vue';
 const props = withDefaults(defineProps<{

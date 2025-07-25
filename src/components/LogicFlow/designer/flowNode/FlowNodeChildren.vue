@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { computed, provide } from 'vue';
-import { FlowNode } from '../../types';
+import type { FlowNode } from '../../types';
 import { parentNodesInjectKey } from '../injectKeys';
 import FlowNodeItem from './FlowNodeItem.vue';
 defineOptions({

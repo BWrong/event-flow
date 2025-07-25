@@ -2,7 +2,7 @@
   <!-- 错误信息面板 -->
   <div class="flow-error-panel" :class="{ show: visible }">
     <div class="flow-error-panel-body">
-      <a-table :dataSource="errorTableData" :columns="errorTableColumns" size="small" bordered :pagination="false">
+      <a-table :dataSource="list" :columns="errorTableColumns" size="small" bordered :pagination="false">
         <template #bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'type'">
             <a-tag color="error" v-if="record.type === 'error'">错误</a-tag>
@@ -27,9 +27,11 @@
 <script setup lang="ts">
 import { AimOutlined, UpOutlined } from '@ant-design/icons-vue';
 import { Table as ATable } from 'ant-design-vue';
+import type { ColumnType } from 'ant-design-vue/es/table';
+import type { ErrorInfoItem } from '../../types';
 
-const props = defineProps<{
-  list: any[]
+defineProps<{
+  list: ErrorInfoItem[]
 }>()
 
 
@@ -37,7 +39,7 @@ const visible = defineModel<boolean>('visible', {
   default: false
 })
 
-const errorTableColumns = [
+const errorTableColumns: ColumnType[] = [
   {
     title: '位置',
     dataIndex: 'position',
@@ -77,7 +79,7 @@ function handlePositionError(position: {
 <style scoped lang="less">
 .flow-error-panel {
   position: absolute;
-  top: 0;
+  top: 34px;
   left: 0;
   width: 100%;
   height: auto;
@@ -87,12 +89,13 @@ function handlePositionError(position: {
   transition: all 0.3s ease-in-out;
   padding-bottom: 0;
   visibility: hidden;
+  z-index: 100;
 
   &.show {
     max-height: 300px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding-bottom: 20px;
     visibility: visible;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
   }
 
   .flow-error-panel-body {
@@ -114,6 +117,7 @@ function handlePositionError(position: {
     border-radius: 4px 4px 0 0;
     transform: translateX(-50%);
     cursor: pointer;
+    color: #555;
   }
 }
 </style>

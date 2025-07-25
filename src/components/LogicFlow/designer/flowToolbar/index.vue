@@ -3,7 +3,7 @@
     <div class="left-toolbar">
       <a-space>
         <a-tooltip title="变量设置" placement="bottom">
-          <FunctionOutlined @click="showVariablePanel = true" style="position: relative;top:1px" />
+          <FunctionOutlined @click="showVariablePanel = true" />
         </a-tooltip>
       </a-space>
       <ADivider type="vertical" />
@@ -40,7 +40,7 @@
 import { CheckCircleOutlined, FunctionOutlined, LeftCircleOutlined, MinusCircleOutlined, PlusCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue';
 import { Divider as ADivider, Space as ASpace, Tooltip as ATooltip } from 'ant-design-vue';
 import { computed, inject, ref } from 'vue';
-import type { ValidateInfo } from '../../types';
+import type { ErrorInfoItem, ValidateInfo } from '../../types';
 import { designerStoreInjectKey, type DesignerStoreType } from '../injectKeys';
 import ErrorPanel from './ErrorPanel.vue';
 import VariablePanel from './VariablePanel/index.vue';
@@ -48,8 +48,11 @@ import VariablePanel from './VariablePanel/index.vue';
 const designerStore = inject(designerStoreInjectKey) as DesignerStoreType
 const canUndo = computed(() => designerStore?.history.canUndo.value)
 const canRedo = computed(() => designerStore?.history.canRedo.value)
-
+// 变量设置面板
 const showVariablePanel = ref(false);
+
+const errorTableData = ref<ErrorInfoItem[]>([])
+const showErrPanel = ref(false)
 const validateInfoFlat = computed(() => {
   const result: ValidateInfo[] = [];
   Object.entries(designerStore?.state.validateInfo || {}).forEach(([id, info]) => {
@@ -73,22 +76,21 @@ const validateInfoFlat = computed(() => {
   return result
 }
 )
-
-const errorTableData = ref([])
-const showErrPanel = ref(false)
 function openErrPanel() {
-  const list = []
+  const list: ErrorInfoItem[] = []
   const nodesMap = designerStore?.getFlatFlowNodes()
   validateInfoFlat.value.forEach(item => {
-    const node = nodesMap[item.id]
-    list.push({
-      type: item.type,
-      position: {
-        name: node.name,
-        id: node.id,
-      },
-      messages: item.messages.join('; ')
-    })
+    const node = nodesMap[item?.id!]
+    if (node) {
+      list.push({
+        type: item.type,
+        position: {
+          name: node.name,
+          id: node.id,
+        },
+        messages: item.messages?.join('; ') || ''
+      })
+    }
   })
   errorTableData.value = list
   showErrPanel.value = true
@@ -108,6 +110,7 @@ function openErrPanel() {
   line-height: 24px;
   z-index: 100;
   position: relative;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
 
 
   .action-icon {
@@ -128,6 +131,7 @@ function openErrPanel() {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    color: #555;
   }
 
   .right-toolbar {

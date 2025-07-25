@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import { inject } from 'vue';
+import FlowNodeChildren from '../../designer/flowNode/FlowNodeChildren.vue';
 import FlowNodeHandler from '../../designer/flowNode/FlowNodeHandler.vue';
 import { designerStoreInjectKey } from '../../designer/injectKeys';
 import type { FlowMaterial, FlowMaterialConfig, FlowNode, FlowNodeProps } from '../../types';
@@ -26,8 +27,8 @@ const props = withDefaults(
 );
 const designerStore = inject(designerStoreInjectKey);
 function onAddNode(material: FlowMaterial) {
-  const node = designerStore.addNode(material, 0, props.data.children)
-  designerStore.setEditNode(node)
+  const node = designerStore!.addNode(material, 0, props.data!.children!)
+  designerStore!.setEditNode(node)
 }
 
 
