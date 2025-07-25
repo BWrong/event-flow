@@ -33,11 +33,11 @@ const perRow = (): StructuredCondition => {
   return {
     target: '',
     source: undefined,
-    sourceVariableType: 'flowTemp',
+    sourceVariableType: 'flow',
     sourceType: 'value',
     operator: 'equals',
     targetType: 'variable',
-    targetVariableType: 'flowTemp',
+    targetVariableType: 'flow',
     expression: '',
     expressionFull: null,
     targetDataType: {

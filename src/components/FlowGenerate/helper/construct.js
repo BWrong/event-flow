@@ -14,7 +14,7 @@ module.exports = {
   removeMarkers: (originalString, startMarker, endMarker) => {
     const regex = new RegExp(
       `\\/\\*\\*\\*\\*${startMarker}\\*\\*\\*\\*\\/.*?\\/\\*\\*\\*\\*${endMarker}\\*\\*\\*\\*\\/`,
-      'gs'
+      'gs',
     ) // 匹配整个标记段落
     return originalString.replace(regex, '')
   },
@@ -34,7 +34,7 @@ module.exports = {
   },
   // 变量显示判断
   getVariableStr(item) {
-    return item.variableType === 'flowTemp' ? item.name : `context.${item.name}`
+    return item.variableType === 'flow' ? item.name : `context.${item.name}`
   },
   // TODO:公式字符串获取
   getFormulaStr: (express, expressionFull) => {
@@ -45,10 +45,10 @@ module.exports = {
         const target = expressConfig.marks.find((mark) => mark.value === match)
         if (target) {
           const { value, extra } = target
-          const extraObj = JSON.parse(extra);
+          const extraObj = JSON.parse(extra)
           return this.getVariableStr({
             variableType: extraObj.variableType,
-            name: value
+            name: value,
           })
         }
       })
@@ -56,7 +56,7 @@ module.exports = {
       return `'${express}'`
     }
   },
-  
+
   // 一些变量的通用方法
 
   /**
@@ -68,7 +68,7 @@ module.exports = {
  */
   getValueStr(valueItem) {
     if (!valueItem) {
-      return '';
+      return ''
     }
     if (valueItem.sourceType === 'value') {
       try {
@@ -79,7 +79,7 @@ module.exports = {
     } else if (valueItem.sourceType === 'variable') {
       return this.getVariableStr({
         variableType: valueItem.sourceVariableType,
-        name: valueItem.source
+        name: valueItem.source,
       })
     } else {
       return getFormulaStr(valueItem.source)
@@ -88,7 +88,7 @@ module.exports = {
   getRuleText: function (condItem) {
     const targetStr = this.getVariableStr({
       variableType: condItem.targetVariableType,
-      name: condItem.target
+      name: condItem.target,
     })
     const sourcStr = this.getValueStr(condItem)
     if (condItem.targetDataType === 'date') {
@@ -108,10 +108,10 @@ module.exports = {
   getAssignItem: function (condItem) {
     const targetStr = this.getVariableStr({
       variableType: condItem.targetVariableType,
-      name: condItem.target
+      name: condItem.target,
     })
     const sourcStr = this.getValueStr(condItem)
     // 赋值操作不用判断连接符
     return `${targetStr}=${sourcStr}`
-  }
+  },
 }

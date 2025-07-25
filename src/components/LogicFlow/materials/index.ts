@@ -1,24 +1,17 @@
-import { type FlowMaterialMap, type FlowRunnerMap } from '../types';
-import { FlowAssignmentNode, runner as assignmentRunner } from './assignment';
-import { FlowBranchNode, runner as branchRunner } from './branch';
-import { FlowConsoleNode, runner as consoleRunner } from './console';
-import { FlowEndNode, runner as endRunner } from './end';
-import { FlowForNode, runner as forRunner } from './for';
-import { FlowFunctionCallNode, runner as functionCallRunner } from './functionCall';
-import { FlowMessageNode, runner as messageRunner } from './message';
-import { FlowOpenPageNode, runner as openpageRunner } from './openpage';
-import { FlowParallelBranchNode, runner as parallelBranchRunner } from './parallelBranch';
-import { FlowServiceCallNode, runner as serviceCallRunner } from './serviceCall';
-import { FlowStartNode, runner as startRuner } from './start';
-import { FlowUpdateServiceNode, runner as updateServiceRunner } from './updateService';
-import { FlowWhileNode, runner as whileRunner } from './while';
-
-// 新增缓存
-// import { FlowAddStorageNode, runner as addStorageRunner } from './storageAdd'
-// // 获取缓存
-// import { FlowGetStorageNode, runner as getStorageRunner } from './storageGet'
-// // 删除缓存
-// import { FlowDeleteStorageNode, runner as deleteStorageRunner } from './storageDel'
+import { type FlowMaterialMap } from '../types'
+import { FlowAssignmentNode } from './assignment'
+import { FlowBranchNode } from './branch'
+import { FlowConsoleNode } from './console'
+import { FlowEndNode } from './end'
+import { FlowForNode } from './for'
+import { FlowMessageNode } from './message'
+import { FlowOpenPageNode } from './openpage'
+import { FlowParallelBranchNode } from './parallelBranch'
+import { FlowServiceCallNode } from './serviceCall'
+import { FlowStartNode } from './start'
+import { FlowAddStorageNode } from './storageAdd'
+import { FlowDeleteStorageNode } from './storageDel'
+import { FlowGetStorageNode } from './storageGet'
 
 export const nodes: FlowMaterialMap = {
   FlowStartNode,
@@ -27,32 +20,11 @@ export const nodes: FlowMaterialMap = {
   FlowAssignmentNode,
   FlowBranchNode,
   FlowParallelBranchNode,
-  FlowFunctionCallNode,
   FlowForNode,
-  // FlowWhileNode,
   FlowMessageNode,
   FlowOpenPageNode,
   FlowServiceCallNode,
-  // FlowUpdateServiceNode,
-  // FlowAddStorageNode,
-  // FlowGetStorageNode,
-  // FlowDeleteStorageNode,
-};
-export const runners: FlowRunnerMap = {
-  FlowStartNode: startRuner,
-  FlowEndNode: endRunner,
-  FlowConsoleNode: consoleRunner,
-  FlowAssignmentNode: assignmentRunner,
-  FlowBranchNode: branchRunner,
-  FlowParallelBranchNode: parallelBranchRunner,
-  FlowFunctionCallNode: functionCallRunner,
-  FlowForNode: forRunner,
-  // FlowWhileNode: whileRunner,
-  FlowMessageNode: messageRunner,
-  FlowOpenPageNode: openpageRunner,
-  FlowServiceCallNode: serviceCallRunner,
-  // FlowUpdateServiceNode: updateServiceRunner,
-  // FlowAddStorageNode: addStorageRunner,
-  // FlowGetStorageNode: getStorageRunner,
-  // FlowDeleteStorageNode: deleteStorageRunner,
-};
+  FlowAddStorageNode,
+  FlowGetStorageNode,
+  FlowDeleteStorageNode,
+}

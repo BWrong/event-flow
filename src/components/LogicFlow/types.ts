@@ -19,6 +19,7 @@ export interface ParamItem {
   variableType: 'flow'
   variableName?: string
 }
+
 // 节点相关类型定义
 export type FlowNodeType =
   | 'FlowStartNode'
@@ -93,7 +94,7 @@ export interface FlowMaterial<
 > {
   name: string
   type: FlowNodeType
-  icon: Component
+  icon: Component | string
   group: string
   noder?: Component
   setter?: Component
@@ -110,7 +111,7 @@ export type FlowMaterialMap = Partial<Record<FlowNodeType, FlowMaterial>>
 // flow相关定义
 
 // 变量选择的类型(变量树中)
-export type VariableType = 'input' | 'flowTemp' | 'page' | 'stores'
+export type VariableType = 'input' | 'flow' | 'page' | 'stores'
 
 export interface TreeVariableItem {
   key: string
@@ -126,6 +127,7 @@ export interface TreeVariableItem {
 }
 
 export interface FlowVariables {
+  id?: string
   name: string
   variableType: VariableType
   dataType?: IDataType
@@ -134,10 +136,21 @@ export interface FlowVariables {
   refs?: string[]
 }
 
-export interface Flow<P = Record<string, any>> {
+export interface FunctionParam {
+  defaultValue: string
+  name: string
+  type: 'string' | 'number' | 'boolean' | 'object' | 'array' | 'function' | 'undefined'
+  description: string
+}
+export interface FlowProps {
+  params: FunctionParam[]
+  return: Record<string, string>
+  meta: Record<string, any>
+}
+export interface Flow {
   id: string
   displayName: string
-  props: P
+  props: FlowProps
   children: FlowNode[]
   variables: FlowVariables[]
 }

@@ -113,7 +113,7 @@ const handleMenuSelect = ({ key, keyPath }: any) => {
   })
   // 这里返回两个值（varFullName-变量完整拼接，row-当前行数据,feat：追加最外层变量类别variableType）
   const rowInfo = flattedVars.value.find((item: any) => item.key === key);
-  const variableType = flattedVars.value.find((item: any) => item.key === keyPath[0])?.origin?.variableType ?? 'flowTemp';
+  const variableType = flattedVars.value.find((item: any) => item.key === keyPath[0])?.origin?.variableType ?? 'flow';
   emit('update:value', {
     varFullName: namePath.join('.'),
     row: rowInfo ? { ...rowInfo.origin, variableType } : null

@@ -85,11 +85,11 @@ const options = ref({
       id: getEditorNodeId('bwf-c-u-'),
       operator: undefined,
       targetType: props.targetType || 'value',
-      targetVariableType: 'flowTemp',
+      targetVariableType: 'flow',
       target: '',
       operatorName: '',
       sourceType: 'value',
-      sourceVariableType: 'flowTemp',
+      sourceVariableType: 'flow',
       source: '',
       targetDataType: { type: 'string' }
     }

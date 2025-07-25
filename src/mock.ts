@@ -1,11 +1,18 @@
 export default {
   props: {
-    params: [],
-    returns: {},
-    eventName: 'onClick',
-    eventLabel: '鼠标单击时触发',
-    eventComponentId: 'a63d3276',
-    eventComponentType: 'button',
+    params: [
+      {
+        name: 'param1',
+        defaultValue: '1',
+        type: 'string',
+        description: '参数1',
+      },
+    ],
+    returns: {
+      return1: '返回1',
+      return2: '返回2',
+    },
+    meta: {},
   },
   displayName: 'button_鼠标单击时触发_3435c12e',
   id: 'flow_3435c12e',
@@ -47,7 +54,7 @@ export default {
                   target: 'eeee',
                   operatorName: '为空',
                   sourceType: 'value',
-                  sourceVariableType: 'flowTemp',
+                  sourceVariableType: 'flow',
                   targetDataType: {
                     type: 'object',
                     itemTypes: [
@@ -163,5 +170,38 @@ export default {
       props: {},
     },
   ],
-  variables: [],
+  variables: [
+    {
+      name: 'globalVar1',
+      variableType: 'global',
+      dataType: {
+        type: 'object',
+        itemTypes: [{ type: 'string', name: 'name' }],
+      },
+      defaultValue: {
+        name: 'var1',
+      },
+      description: '全局变量1',
+    },
+    {
+      name: 'inputVar2',
+      variableType: 'input',
+      dataType: {
+        type: 'object',
+        itemTypes: [{ type: 'string', name: 'name' }],
+      },
+      defaultValue: {
+        name: 'var2',
+      },
+      description: '入参变量2',
+    },
+    {
+      name: 'flowVar1',
+      variableType: 'flow',
+      dataType: {
+        type: 'object',
+        itemTypes: [{ type: 'string', name: 'name' }],
+      },
+    },
+  ],
 }

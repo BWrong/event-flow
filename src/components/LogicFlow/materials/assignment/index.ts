@@ -1,11 +1,18 @@
-import Setter from './Setter.vue'
-import type { FlowMaterial, ValidateType, FlowNode, FlowNodeProps, StructuredInfo, StructuredCondition } from '../../types'
-import Icon from './icon.svg'
 import { validateFieldSet } from '../../common/validate'
+import type {
+  FlowMaterial,
+  FlowNode,
+  FlowNodeProps,
+  StructuredCondition,
+  StructuredInfo,
+  ValidateType,
+} from '../../types'
+import Icon from './icon.svg'
+import Setter from './Setter.vue'
 export { default as runner } from './Runner'
 // 变量赋值
 export interface FlowAssignmentNodeProps extends FlowNodeProps {
-  fillRules: StructuredInfo<StructuredCondition[]>;
+  fillRules: StructuredInfo<StructuredCondition[]>
 }
 export const FlowAssignmentNode: FlowMaterial<FlowAssignmentNodeProps> = {
   name: '变量赋值',
@@ -34,12 +41,12 @@ export const FlowAssignmentNode: FlowMaterial<FlowAssignmentNodeProps> = {
   },
   updateValueText: (node: FlowNode<FlowAssignmentNodeProps>) => {
     const assignMeta = node.props
-    const structured = assignMeta?.fillRules?.structured ?? [];
-    let text = node?.placeholderText ?? '请设置' + node.name;
+    const structured = assignMeta?.fillRules?.structured ?? []
+    let text = node?.placeholderText ?? '请设置' + node.name
     if (validateFieldSet(structured)) {
       text = `已设置${structured?.length}个赋值`
     }
-    node.props.valueText = text;
+    node.props.valueText = text
   },
   props: {
     inputs: [],
@@ -47,11 +54,11 @@ export const FlowAssignmentNode: FlowMaterial<FlowAssignmentNodeProps> = {
     valueText: '',
     fillRules: {
       conditionType: 'structured',
-      structured: []
-    }
+      structured: [],
+    },
   },
   config: {
     allowEdit: true,
-    allowDelete: true
-  }
+    allowDelete: true,
+  },
 }

@@ -2,10 +2,14 @@
 import type { Rule } from 'ant-design-vue/es/form'
 import { cloneDeep } from 'lodash-es'
 import { computed, ref, watch } from 'vue'
-import { type FlowVariables } from '../../../../types'
-import { StructureTypeSelect } from '../../../toolComs'
-import useDesignerStore from '../../../useDesignerStore'
-import FullModal from '../fullModal/index.vue'
+import type { FlowVariables } from '../../../types'
+import { StructureTypeSelect } from '../../toolComs'
+import useDesignerStore from '../../useDesignerStore'
+const { data, type } = defineProps<{
+  data?: FlowVariables,
+  type: 'add' | 'edit'
+}>()
+const visible = defineModel<boolean>('visible', { default: false })
 
 const checkname = async (_rule: Rule, value: any) => {
   const regex = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/
@@ -21,7 +25,7 @@ const flowStore = useDesignerStore()
 
 const formState = ref<FlowVariables>({
   name: '',
-  variableType: 'flowTemp',
+  variableType: 'flow',
   dataType: { type: 'string' },
   description: ''
 })
@@ -48,52 +52,36 @@ const handletypeInfoChange = (val: any) => {
 const handleOk = () => {
   formRef.value.validate().then(() => {
     const newRow = cloneDeep(formState.value)
-    const flag = flowStore.state.editVarRow ? flowStore.modifyVariable(newRow) : flowStore.addVariable(newRow)
+    const flag = data ? flowStore.modifyVariable(newRow) : flowStore.addVariable(newRow)
     if (flag) {
       handleCancel()
     }
   })
 }
 const tempFlowVars = computed(() => {
-  return flowStore.state.flowData.variables
-    ? flowStore.state.flowData.variables.filter((item: FlowVariables) => item.variableType === 'flowTemp')
+  return flowStore.state.flowData!.variables
+    ? flowStore.state.flowData!.variables.filter((item: FlowVariables) => item.variableType === 'flow')
     : []
 })
 const handleCancel = () => {
   formRef.value.resetFields()
-  flowStore.state.createVariable = false
+  visible.value = false
 }
-// 编辑态不允许修改
-const nameDisabled = computed(() => {
-  // if (flowStore.state.editVarRow) {
-  //   return flowStore.state.editVarRow?.dataType?.type !== 'structureObject';
-  // } else {
-  //   return false;
-  // }
-  return !!flowStore.state.editVarRow
-})
-// const typeDisabled = computed(() => {
-//   if (flowStore.state.editVarRow) {
-//     return flowStore.state.editVarRow?.dataType?.type === 'structureObject';
-//   } else {
-//     return false;
-//   }
-// });
 watch(
-  () => flowStore.state.createVariable,
+  () => visible.value,
   async (val: boolean) => {
     if (val) {
-      if (!flowStore.state.editVarRow) {
+      if (type === 'add') {
         // 新增操作，默认给个名字(这里从临时变量顺序排)
         formState.value = {
           name: `var_${tempFlowVars.value.length + 1}`,
           dataType: { type: 'string' },
-          variableType: 'flowTemp',
+          variableType: 'flow',
           description: ''
         }
       } else {
         //查询变量信息
-        formState.value = cloneDeep(flowStore.state.editVarRow)
+        formState.value = cloneDeep(data)
       }
     }
   },
@@ -104,14 +92,13 @@ watch(
 </script>
 
 <template>
-  <FullModal :visible="flowStore.state.createVariable" :mask-closable="false" destroy-on-close
-    :title="flowStore.state.editVarRow ? '编辑变量' : '新增变量'" :confirm-loading="confirmLoading" :width="600" @ok="handleOk"
-    @cancel="handleCancel">
+  <a-modal :open="visible" :mask-closable="false" destroy-on-close :title="type === 'add' ? '新增变量' : '编辑变量'"
+    :confirm-loading="confirmLoading" :width="600" @ok="handleOk" @cancel="handleCancel">
     <AForm style="overflow-x: hidden" ref="formRef" :model="formState" :rules="rules" layout="vertical">
       <a-row :gutter="20">
         <a-col :span="12">
           <AFormItem label="变量名称" name="name">
-            <AInput :disabled="!!flowStore.state.editVarRow" v-model:value="formState.name" placeholder="请输入" />
+            <AInput :disabled="type === 'edit'" v-model:value="formState.name" placeholder="请输入" />
           </AFormItem>
         </a-col>
         <a-col :span="12">
@@ -124,7 +111,7 @@ watch(
         <ATextarea v-model:value="formState.description" placeholder="请输入" />
       </AFormItem>
     </AForm>
-  </FullModal>
+  </a-modal>
 </template>
 
 <style lang="less" scoped></style>

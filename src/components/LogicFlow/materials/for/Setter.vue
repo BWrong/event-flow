@@ -52,12 +52,12 @@ const updateOutputVariableList = () => {
   formState.value.variableList = [
     {
       name: formState.value.loopEntry,
-      variableType: 'flowTemp' as VariableType,
+      variableType: 'flow' as VariableType,
       dataType: loopEntryDataType.value
     },
     {
       name: formState.value.loopSubscript,
-      variableType: 'flowTemp' as VariableType,
+      variableType: 'flow' as VariableType,
       dataType: { type: 'number' } as IDataType
     }
   ].filter((item: Partial<FlowVariables>) => !!item.name)

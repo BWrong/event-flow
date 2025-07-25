@@ -1,11 +1,18 @@
+import {
+  type FlowMaterial,
+  type FlowNode,
+  type FlowNodeProps,
+  type FlowVariables,
+  type ValidateType,
+  type VariableType,
+} from '../../types'
+import Icon from './icon.svg'
 import Noder from './Noder.vue'
 import Setter from './Setter.vue'
-import { type FlowMaterial, type FlowNode, type FlowNodeProps, type ValidateType, type FlowVariables, type VariableType } from '../../types'
-import Icon from './icon.svg'
 export { default as runner } from './Runner'
 
 export interface FlowForNodeProps extends FlowNodeProps {
-  loopCollection: {name: string, variableType: VariableType}
+  loopCollection: { name: string; variableType: VariableType }
   loopEntry: string
   loopSubscript: string
   variableList: FlowVariables[] // 对外输出变量
@@ -22,17 +29,17 @@ export const FlowForNode: FlowMaterial<FlowForNodeProps, FlowNode> = {
     allowEdit: true,
     nodeAutoWidth: true,
     allowCollapse: true,
-    footerTips: '依次循环处理集合变量的每条记录'
+    footerTips: '依次循环处理集合变量的每条记录',
   },
   props: {
-    loopCollection: { name: '', variableType: 'flowTemp' },
+    loopCollection: { name: '', variableType: 'flow' },
     loopEntry: '',
     loopSubscript: '',
-    variableList: []
+    variableList: [],
   },
   validator: (node: FlowNode<FlowForNodeProps>) => {
-    let type: ValidateType = 'default';
-    const  messages: string[] = []
+    let type: ValidateType = 'default'
+    const messages: string[] = []
     if (!node.props.loopCollection?.name) {
       type = 'error'
       messages.push('集合变量是必填字段')
@@ -44,5 +51,5 @@ export const FlowForNode: FlowMaterial<FlowForNodeProps, FlowNode> = {
 
     return { type, messages }
   },
-  children: []
+  children: [],
 }

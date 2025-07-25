@@ -3,6 +3,7 @@ import { message } from 'ant-design-vue'
 import { computed, markRaw, nextTick, reactive } from 'vue'
 import { convertTreeToObject, guid } from '../common/helper'
 import {
+  type EventFlowProps,
   type Flow,
   type FlowMaterial,
   type FlowMaterialMap,
@@ -23,11 +24,8 @@ export interface IState {
   flowData: Flow | null
   validateInfo: Record<string, ValidateInfo>
   zoom: number
-  variables: FlowVariables[]
-  // 创建变量弹框
-  createVariable: boolean
-  editVarRow: FlowVariables
 }
+
 // 创建一个响应式对象，用于存储流程数据
 const state = reactive<IState>({
   materials: {},
@@ -40,9 +38,6 @@ const state = reactive<IState>({
   flowData: null,
   validateInfo: {},
   zoom: 100,
-  variables: [],
-  createVariable: false,
-  editVarRow: null,
 })
 type ChangeType = 'add' | 'update' | 'delete' | 'undo' | 'redo'
 type ChangeFunction = (_type: ChangeType, _node?: FlowNode, _flowData?: Flow) => void
@@ -210,10 +205,6 @@ function changeFlow(data: Flow) {
     validate()
   })
 }
-// 一些变量操作
-function setVariables(variables: FlowVariables[]) {
-  state.variables = variables
-}
 // 删除变量
 const delVariable = (name: string) => {
   const variableList = state.flowData?.variables
@@ -275,20 +266,6 @@ function zoomOut() {
 }
 function zoomReset() {
   state.zoom = 100
-}
-export interface FunctionParam {
-  defaultValue: string
-  name: string
-  type: 'string' | 'number' | 'boolean' | 'object' | 'array' | 'function' | 'undefined'
-  description: string
-}
-export interface EventFlowProps {
-  params: FunctionParam[]
-  return: Record<string, string>
-  eventName: string
-  eventLabel: string
-  eventComponentType: string
-  eventComponentId: string
 }
 export type EventFlow = Flow<EventFlowProps>
 function createStartNode(flowId: string, props: EventFlowProps): FlowNode {
@@ -353,7 +330,6 @@ export default function () {
     onChange,
     callChangeHooks,
     getFlatFlowNodes,
-    setVariables,
     delVariable,
     addVariable,
     modifyVariable,

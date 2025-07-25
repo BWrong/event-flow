@@ -6,21 +6,19 @@
       </div>
     </div>
   </div>
-  <FlowNodeSetter />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Flow } from '../types';
+import type { Flow } from '../types';
 import FlowNodeChildren from './flowNode/FlowNodeChildren.vue';
-import FlowNodeSetter from './flowNode/FlowNodeSetter.vue';
 const props = defineProps<{
-  data?: Flow,
+  data?: Flow | null,
   zoom?: number
 }>()
 
 const nodes = computed(() => props.data?.children || [])
-const scale = computed(() => props.zoom / 100)
+const scale = computed(() => props.zoom ? props.zoom / 100 : 1)
 </script>
 
 <style scoped lang="less">

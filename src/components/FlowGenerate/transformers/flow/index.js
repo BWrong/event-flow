@@ -40,14 +40,17 @@ module.exports = (workSpacePath, outputPrefix) => ({
       signsInit: ['/****inject imports start****/', '/****inject imports end****/\n'],
       signStart: 'inject imports start',
       signEnd: 'inject imports end',
-      modules: []
+      modules: [],
     },
     localVariables: {
-      signsInit: ['/****inject local variables start****/', '/****inject local variables end****/\n'],
+      signsInit: [
+        '/****inject local variables start****/',
+        '/****inject local variables end****/\n',
+      ],
       signStart: 'inject local variables start',
       signEnd: 'inject local variables end',
-      modules: []
-    }
+      modules: [],
+    },
   },
   // 注册顶部导入模块(防止重复注入)
   registImportModule: (module) => {
@@ -66,7 +69,7 @@ module.exports = (workSpacePath, outputPrefix) => ({
     // 写入方法文件  utils/evalutor.js -> output/utils/evalutor.js
     const evalutorStr = fs.readFileSync(path.join(workSpacePath, 'utils/evalutor.js'), 'utf8')
     //1.将顶部的const xx = require()替换为 import xx from 。 2. 将底部的 module.exports = 替换为 export
-    const require2IptRegex = /const\s+([\w\$\d_]+)\s*=\s*require\(['"]([^'"]+)['"]\);/g;
+    const require2IptRegex = /const\s+([\w\$\d_]+)\s*=\s*require\(['"]([^'"]+)['"]\);/g
     const newContent = evalutorStr.replace(require2IptRegex, (match, p1, p2) => {
       return `import ${p1} from '${p2}';`
     })
@@ -74,8 +77,8 @@ module.exports = (workSpacePath, outputPrefix) => ({
       path.join(workSpacePath, 'output/utils/evalutor.js'),
       newContent.replace('module.exports = ', 'export '),
       {
-        encoding: 'utf-8'
-      }
+        encoding: 'utf-8',
+      },
     )
   },
   /**
@@ -88,7 +91,7 @@ module.exports = (workSpacePath, outputPrefix) => ({
     let varObjectStr = ''
     if (schema.variables && schema.variables.length > 0) {
       schema.variables
-        .filter((item) => item.variableType === 'flowTemp')
+        .filter((item) => item.variableType === 'flow')
         .forEach((item) => {
           console.log(datasource2Json(item), '构建值')
           varObjectStr += `const ${item.name} = ${datasource2Json(item)};\n`
@@ -107,7 +110,11 @@ module.exports = (workSpacePath, outputPrefix) => ({
 
     // 插入语句
 
-    return constructModule.insertAtStartOfSection(funcStr, varObjectStr, this.injects.localVariables.signStart)
+    return constructModule.insertAtStartOfSection(
+      funcStr,
+      varObjectStr,
+      this.injects.localVariables.signStart,
+    )
   },
   generateNode(nodes) {
     let nodeRenderStr = ''
@@ -122,8 +129,13 @@ module.exports = (workSpacePath, outputPrefix) => ({
           const { props } = branch
           // 查找是否包含日期字段，有则引入dayjs
           if (props.conditionType === 'structured') {
-            const flattedCons = constructModule.flattenTree([props.structured], { childrenKey: 'criteriaList' })
-            if (flattedCons.length > 0 && flattedCons.some((item) => item.targetDataType === 'date')) {
+            const flattedCons = constructModule.flattenTree([props.structured], {
+              childrenKey: 'criteriaList',
+            })
+            if (
+              flattedCons.length > 0 &&
+              flattedCons.some((item) => item.targetDataType === 'date')
+            ) {
               this.registImportModule({ key: 'dayjs', content: `import dayjs from 'dayjs'` })
             }
           }
@@ -167,7 +179,11 @@ module.exports = (workSpacePath, outputPrefix) => ({
           // 构建顶部导入
           if (this.injects.import.modules.length > 0) {
             this.injects.import.modules.forEach((module) => {
-              funcStr = constructModule.insertAtStartOfSection(funcStr, module.content, this.injects.import.signStart)
+              funcStr = constructModule.insertAtStartOfSection(
+                funcStr,
+                module.content,
+                this.injects.import.signStart,
+              )
             })
           }
           // 公式方法导入（目前是传入的全量，如何按需？）
@@ -176,20 +192,24 @@ module.exports = (workSpacePath, outputPrefix) => ({
             imtEvalutorStr += `${funcName},`
           })
           imtEvalutorStr += '} from "./utils/evalutor"'
-          
-          funcStr = constructModule.insertAtEndOfSection(funcStr, imtEvalutorStr, this.injects.import.signEnd)
+
+          funcStr = constructModule.insertAtEndOfSection(
+            funcStr,
+            imtEvalutorStr,
+            this.injects.import.signEnd,
+          )
 
           // 同步生成evalutor.js
           this.syncGenerateEvalutor()
 
           const formattedJsContent = await prettier.format(funcStr, { semi: true, parser: 'babel' })
           fs.writeFileSync(`${outputPrefix}/${id}.js`, formattedJsContent, {
-            encoding: 'utf-8'
+            encoding: 'utf-8',
           })
         }
       })
     } catch (error) {
       console.log(error)
     }
-  }
+  },
 })

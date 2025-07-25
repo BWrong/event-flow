@@ -221,7 +221,7 @@ export const useFindTreeVars = (curNode: FlowNode, extraOptions?: ComputedRef<Tr
     }
   }
 
-  resetVars()
+  // resetVars()
   // 一些子项通用操作
   const getIconByType = (menuInfo: any) => {
     const type = menuInfo?.type || menuInfo?.dataType?.type

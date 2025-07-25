@@ -63,12 +63,12 @@ const props = withDefaults(
       id: getEditorNodeId('bwf-c-u-'),
       operator: undefined,
       targetType: 'value',
-      targetVariableType: 'flowTemp',
+      targetVariableType: 'flow',
       target: '',
       operatorName: '',
       sourceType: 'value',
       source: '',
-      sourceVariableType: 'flowTemp',
+      sourceVariableType: 'flow',
       targetDataType: { type: 'string' }
     }),
     rowIndex: 0

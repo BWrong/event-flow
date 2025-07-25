@@ -29,10 +29,10 @@ const props = withDefaults(
       target: '',
       source: undefined,
       sourceType: 'value',
-      sourceVariableType: 'flowTemp',
+      sourceVariableType: 'flow',
       operator: 'equals',
       targetType: 'variable',
-      targetVariableType: 'flowTemp',
+      targetVariableType: 'flow',
       targetDataType: {
         type: undefined
       },
