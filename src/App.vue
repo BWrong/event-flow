@@ -1,36 +1,41 @@
 <script setup lang="ts">
-import FlowMain from '@/components/flow/Main.vue';
+import LogicFlowDesigner from '@/components/LogicFlow/designer/index.vue';
+import { nodes as materials } from '@/components/LogicFlow/materials';
+import { ref } from 'vue';
+import type { Flow } from './components/LogicFlow/types.ts';
+import mockData from './mock.ts';
+
+const flowData = ref(mockData as Flow)
+function onChange(data) {
+  console.log(data)
+}
+const variables = ref([{
+  name: 'page',
+  variableType: 'page',
+  dataType: {
+    type: 'object',
+    itemTypes: [],
+  },
+}, {
+  name: 'stores',
+  variableType: 'stores',
+  dataType: {
+    type: 'object',
+    itemTypes: [],
+  },
+}])
 </script>
 
 <template>
-  <FlowMain />
+  <div class="app">
+    <LogicFlowDesigner v-model:data="flowData" :materials="materials" :variables="variables" @change="onChange">
+    </LogicFlowDesigner>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.app {
+  width: 100vw;
+  height: 100vh;
 }
 </style>
