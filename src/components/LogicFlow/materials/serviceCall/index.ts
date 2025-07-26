@@ -7,7 +7,7 @@ export const FlowServiceCallNode: FlowMaterial = {
   type: 'FlowServiceCallNode',
   icon: Icon,
   setter: Setter,
-  group: '调用',
+  group: '操作',
   config: {},
   props: {
     // apiId: '183847327482727',
