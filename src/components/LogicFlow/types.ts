@@ -49,7 +49,6 @@ export interface BaseParam {
 export interface FlowNodeProps {
   inputs?: BaseParam[]
   outputs?: BaseParam[]
-  valueText?: string
   [key: string]: any
 }
 
@@ -57,7 +56,6 @@ export interface FlowNode<P extends FlowNodeProps = FlowNodeProps, C = FlowNodeC
   id: string
   type: FlowNodeType
   name: string
-  placeholderText?: string // 默认占位文字
   description: string
   props: P
   children?: C[]
@@ -84,7 +82,7 @@ export type ValidateType = 'error' | 'default' | 'warning'
 export interface ValidateInfo {
   type: ValidateType
   id?: string
-  messages?: string[]
+  messages: string[]
   children?: (ValidateInfo & { id: string })[]
 }
 export interface FlowMaterial<
@@ -101,10 +99,10 @@ export interface FlowMaterial<
   config: Config
   props: Props
   children?: Children[]
-  validator?: (_node: FlowNode, _state?: IState) => ValidateInfo // 节点校验函数
-  updateValueText?: (_node: FlowNode, _state: IState) => void // 渲染描述文字,这里会更新到对应节点的props下的valueText中
-  onBeforeAdd?: (_node: FlowNode, _state: IState) => FlowNode // 节点添加前的钩子函数
-  onAfterAdd?: (_node: FlowNode, _state: IState) => void // 节点添加后的钩子函数
+  validator?: (_node: FlowNode<Props>, _state?: IState) => ValidateInfo // 节点校验函数
+  generateDescription?: (_node: FlowNode<Props>, _state: IState) => void // 渲染描述文字,这里会更新到对应节点的props下的valueText中
+  onBeforeAdd?: (_node: FlowNode<Props>, _state: IState) => FlowNode<Props> // 节点添加前的钩子函数
+  onAfterAdd?: (_node: FlowNode<Props>, _state: IState) => void // 节点添加后的钩子函数
 }
 export type FlowMaterialMap = Partial<Record<FlowNodeType, FlowMaterial>>
 

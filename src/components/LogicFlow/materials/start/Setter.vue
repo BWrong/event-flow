@@ -1,24 +1,27 @@
 <template>
   <div class="start-node-config-wrapper">
-    <AFormItem class="block-item" label="动作入参">
-      <div class="field-set-wrapper">
-        <a-table :columns="columns" :data-source="value" v-if="value.length > 0">
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.dataIndex === 'dataType'">
-              {{ getItemType(record.dataType) }}
-            </template>
+    <AFormItem class="block-item" label="流程入参">
+      <a-table :columns="columns" :data-source="params" v-if="params.length > 0" size="small" bordered
+        :pagination="false">
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.dataIndex === 'type'">
+            <!-- {{ getItemType(record.type) }} -->
+            {{ record.type }}
           </template>
-        </a-table>
-        <p v-else class="empty-text" style="margin-top: 10px">暂无入参</p>
-      </div>
+        </template>
+      </a-table>
+      <a-empty v-else :image="simpleImage" description="暂无入参" />
     </AFormItem>
   </div>
 </template>
 
 <script setup lang="ts">
-import { getItemType } from '../../common/helper';
+import { Empty } from 'ant-design-vue';
+import { computed, inject } from 'vue';
+import { designerStoreInjectKey } from '../../designer/injectKeys';
 import type { FlowNodeProps } from '../../types';
 import { FlowStartNode } from './index';
+const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE;
 withDefaults(
   defineProps<{
     value: FlowNodeProps
@@ -27,6 +30,8 @@ withDefaults(
     value: () => FlowStartNode.props
   }
 )
+const flowStore = inject(designerStoreInjectKey);
+const params = computed(() => flowStore?.state.flowData?.props.params || []);
 const columns = [
   {
     title: '参数名称',
@@ -34,7 +39,7 @@ const columns = [
   },
   {
     title: '类型',
-    dataIndex: 'dataType',
+    dataIndex: 'type',
   },
   {
     title: '默认值',
@@ -47,9 +52,4 @@ const columns = [
 ]
 </script>
 
-<style scoped lang="less">
-.field-set-item-wrapper {
-  width: 100%;
-  height: 40px;
-}
-</style>
+<style scoped lang="less"></style>

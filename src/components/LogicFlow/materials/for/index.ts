@@ -6,7 +6,7 @@ import {
   type ValidateType,
   type VariableType,
 } from '../../types'
-import Icon from './icon.svg'
+import Icon from './icon.svg?component'
 import Noder from './Noder.vue'
 import Setter from './Setter.vue'
 export { default as runner } from './Runner'

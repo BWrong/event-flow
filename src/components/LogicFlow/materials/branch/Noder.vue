@@ -27,7 +27,7 @@ import { designerStoreInjectKey, parentNodesInjectKey, themeInjectKey } from '..
 import type { FlowBranchRouter, FlowMaterialConfig, FlowNode, FlowNodeProps } from '../../types';
 import BranchItem from './BranchItem.vue';
 import { createBranchNodeData } from './helper';
-import Icon from './icon.svg';
+import Icon from './icon.svg?component';
 
 const props = defineProps<{
   data: FlowNode<FlowNodeProps, FlowBranchRouter>,

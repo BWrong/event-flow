@@ -2,31 +2,32 @@
   <div class="flow-branch-container">
     <div class="flow-branch-add-wrapper" ref="wrapperRef">
       <div class="flow-branch-add-trigger" @click="handleAddBranch">
-       <Icon style="width: 1.5em; height: 1.5em; margin-right: 8px; fill: currentColor; " /> 添加分支
+        <Icon style="width: 1.5em; height: 1.5em; margin-right: 8px; fill: currentColor; " /> 添加分支
       </div>
       <ATooltip placement="bottom" title="删除节点" v-if="config?.allowDelete">
         <APopconfirm title="是否删除当前分支节点？" :overlayStyle="{ width: '200px' }" ok-text="确定" cancel-text="取消"
-          @confirm="handleDeleteNode" ok-type="danger" :get-popup-container="() => wrapperRef"  @open-change="onOpenChange">
+          @confirm="handleDeleteNode" ok-type="danger" :get-popup-container="() => wrapperRef"
+          @open-change="onOpenChange">
           <DeleteOutlined class="flow-branch-delete" />
         </APopconfirm>
       </ATooltip>
     </div>
     <div class="flow-branch-inner" v-if="data?.children && data.children.length > 0">
       <BranchItem v-for="(branch, index) in data.children" :key="branch.id" :index="index" :data="branch"
-        :parent-data="data" @edit="state.editBranchRouter = branch" @update="handleUpdateBranch"/>
+        :parent-data="data" @edit="state.editBranchRouter = branch" @update="handleUpdateBranch" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Tooltip as ATooltip, Popconfirm as APopconfirm } from 'ant-design-vue'
 import { DeleteOutlined } from '@ant-design/icons-vue';
+import { Popconfirm as APopconfirm, Tooltip as ATooltip } from 'ant-design-vue';
+import { inject, reactive, ref } from 'vue';
+import { designerStoreInjectKey, parentNodesInjectKey, themeInjectKey } from '../../designer/injectKeys';
 import { FlowBranchRouter, FlowMaterialConfig, FlowNode, FlowNodeProps } from '../../types';
 import BranchItem from './BranchItem.vue';
-import { inject, reactive, ref } from 'vue';
 import { createBranchNodeData } from './helper';
-import { themeInjectKey, designerStoreInjectKey, parentNodesInjectKey } from '../../designer/injectKeys';
-import Icon from './icon.svg'
+import Icon from './icon.svg?component';
 
 const props = defineProps<{
   data: FlowNode<FlowNodeProps, FlowBranchRouter>,
@@ -137,6 +138,7 @@ function onOpenChange(open: boolean) {
     position: relative;
     display: inline-flex;
     justify-content: center;
+
     &::before {
       position: absolute;
       height: 100%;

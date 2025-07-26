@@ -13,10 +13,10 @@
         </AFormItem>
       </ACol>
     </ARow>
-    <FormItem class="normal-label" name="description" label="描述">
+    <AFormItem class="normal-label" name="description" label="描述">
       <ATextarea placeholder="请输入节点描述" :maxlength="200" show-count v-model:value="formState.description"
         @change="triggerNode" />
-    </FormItem>
+    </AFormItem>
     <ADivider />
     <a-alert class="mb-3" message="当流程数据不满足所有其他分支条件时，会执行默认分支。（该分支不能编辑或删除）" type="warning" show-icon
       v-if="formState.props.isDefaultBranch" />

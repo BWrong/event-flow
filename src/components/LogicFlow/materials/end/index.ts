@@ -1,5 +1,5 @@
 import { type FlowMaterial } from '../../types'
-import Icon from './icon.svg'
+import Icon from './icon.svg?component'
 export { default as runner } from './Runner'
 export const FlowEndNode: FlowMaterial = {
   name: '结束节点',
@@ -11,5 +11,5 @@ export const FlowEndNode: FlowMaterial = {
     allowDelete: false,
     allowEdit: false,
   },
-  props: {}
+  props: {},
 }

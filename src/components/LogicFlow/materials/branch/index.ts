@@ -1,19 +1,18 @@
-import { inject } from 'vue'
-import Noder from './Noder.vue'
-import Setter from './Setter.vue'
-import {
-  type FlowMaterial,
-  type FlowNode,
-  type ValidateType,
-  type FlowBranchRouter,
-  type Structured,
-  type StructuredCondition,
-  type FlowNodeProps
-} from '../../types'
-import Icon from './icon.svg'
-import { createBranchNodeData } from './helper'
 import { validateFieldSet } from '../../common/validate'
 import { type IState } from '../../designer/useDesignerStore'
+import {
+  type FlowBranchRouter,
+  type FlowMaterial,
+  type FlowNode,
+  type FlowNodeProps,
+  type Structured,
+  type StructuredCondition,
+  type ValidateType,
+} from '../../types'
+import { createBranchNodeData } from './helper'
+import Icon from './icon.svg?component'
+import Noder from './Noder.vue'
+import Setter from './Setter.vue'
 export { default as runner } from './Runner'
 // 结构树平铺
 const flattedConditions = (conditions: (Structured | StructuredCondition)[]) => {
@@ -41,14 +40,14 @@ export const FlowBranchNode: FlowMaterial<FlowNodeProps, FlowBranchRouter> = {
     allowDelete: true,
     allowEdit: true,
     hideInAdd: false,
-    isCustom: true
+    isCustom: true,
   },
   props: {},
   // 支持整体节点校验，和单个分支校验
   validator: (node: FlowNode<FlowNodeProps, FlowBranchRouter>, state?: IState) => {
     const validateBranchRouter = (branchRouter: FlowBranchRouter) => {
-      let type: ValidateType = 'default';
-      const  messages: string[] = []
+      let type: ValidateType = 'default'
+      const messages: string[] = []
       const branchProps = branchRouter.props
       if (branchProps.isDefaultBranch) {
         return { type, messages }
@@ -59,7 +58,6 @@ export const FlowBranchNode: FlowMaterial<FlowNodeProps, FlowBranchRouter> = {
       }
       if (branchProps.conditionType === 'structured') {
         if (branchProps.structured && branchProps.structured.criteriaList.length > 0) {
-          
           // 构建平铺结构
           const tempCriteriaList = flattedConditions(branchProps.structured.criteriaList)
           const fieldSetFlag = validateFieldSet(tempCriteriaList)
@@ -80,7 +78,9 @@ export const FlowBranchNode: FlowMaterial<FlowNodeProps, FlowBranchRouter> = {
       return { type, messages, id: branchRouter.id }
     }
     if (state) {
-      const branchRouter = node.children.find((child) => state.setterProps.branchRouter.id === child.id)
+      const branchRouter = node.children.find(
+        (child) => state.setterProps.branchRouter.id === child.id,
+      )
       if (branchRouter) {
         return validateBranchRouter(branchRouter)
       } else {
@@ -102,11 +102,13 @@ export const FlowBranchNode: FlowMaterial<FlowNodeProps, FlowBranchRouter> = {
     }
   },
   // 这里会返回规则的拼接结构
-  updateValueText: (node: FlowNode<FlowNodeProps, FlowBranchRouter>, state: IState) => {
+  description: (node: FlowNode<FlowNodeProps, FlowBranchRouter>, state: IState) => {
     const branchRouterIndex = node.children.findIndex(
-      (child: FlowBranchRouter) => state.setterProps.branchRouter.id === child.id
+      (child: FlowBranchRouter) => state.setterProps.branchRouter.id === child.id,
     )
-    const branchRouter = node.children.find((child: FlowBranchRouter) => state.setterProps.branchRouter.id === child.id)
+    const branchRouter = node.children.find(
+      (child: FlowBranchRouter) => state.setterProps.branchRouter.id === child.id,
+    )
     let text = '请设置' + branchRouter.name
     if (branchRouter) {
       const branchProps = branchRouter.props
@@ -115,7 +117,12 @@ export const FlowBranchNode: FlowMaterial<FlowNodeProps, FlowBranchRouter> = {
         if (arr && arr.length > 0) {
           arr.forEach((item: any, index: number) => {
             item.ruleText && (str += item.ruleText)
-            if (item.combineType && item.combineTypeName && item.criteriaList && item.criteriaList.length > 0) {
+            if (
+              item.combineType &&
+              item.combineTypeName &&
+              item.criteriaList &&
+              item.criteriaList.length > 0
+            ) {
               str += '(' + getExpressText(item.criteriaList, item.combineTypeName) + ')'
             }
             index < arr.length - 1 && (str += contactStr)
@@ -126,7 +133,7 @@ export const FlowBranchNode: FlowMaterial<FlowNodeProps, FlowBranchRouter> = {
       text =
         branchProps.conditionType === 'structured'
           ? getExpressText([branchProps.structured], '')
-          : branchProps.expressionFull?.text ?? ''
+          : (branchProps.expressionFull?.text ?? '')
     }
 
     node.children[branchRouterIndex].props.valueText = text
@@ -138,23 +145,23 @@ export const FlowBranchNode: FlowMaterial<FlowNodeProps, FlowBranchRouter> = {
         createBranchNodeData('条件分支1', {
           conditionType: 'structured',
           nodeId: node.id,
-          structured: undefined
+          structured: undefined,
         }),
         createBranchNodeData(
           '默认分支',
           {
             isDefaultBranch: true,
-            nodeId: node.id
+            nodeId: node.id,
           },
-          '当其他条件不满足时执行该分支'
-        )
-      ]
+          '当其他条件不满足时执行该分支',
+        ),
+      ],
     }
   },
   onAfterAdd(node, state) {
     state.setterProps = {
       hideBaseInfo: true,
-      branchRouter: node.children[0]
+      branchRouter: node.children[0],
     }
-  }
+  },
 }

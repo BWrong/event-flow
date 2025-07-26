@@ -1,6 +1,6 @@
-import Setter from './Setter.vue'
 import { type FlowMaterial, type FlowNode } from '../../types'
-import Icon from './icon.svg'
+import Icon from './icon.svg?component'
+import Setter from './Setter.vue'
 export { default as runner } from './Runner'
 
 export const FlowGetStorageNode: FlowMaterial = {
@@ -10,15 +10,15 @@ export const FlowGetStorageNode: FlowMaterial = {
   setter: Setter,
   validator: function (node: FlowNode<any>) {
     const storageData = node.props.storageData
-    const duplicates = [];
+    const duplicates = []
 
-    storageData.forEach(item => {
+    storageData.forEach((item) => {
       const { variable, storageKey } = item
 
       if (!variable.variableValue) {
         duplicates.push(item)
       }
-      
+
       const _method = storageKey.method
       if (_method === 'expression') {
         if (!storageKey.content.expression) {
@@ -36,11 +36,14 @@ export const FlowGetStorageNode: FlowMaterial = {
     })
     // console.log('duplicates', duplicates)
     // 只做是否为空校验
-    return { type: duplicates.length ? 'error' : 'default', messages: [duplicates.length ? '输入框不能为空' : ''] }
+    return {
+      type: duplicates.length ? 'error' : 'default',
+      messages: [duplicates.length ? '输入框不能为空' : ''],
+    }
   },
   group: '调用',
   config: {},
   props: {
     storageData: [],
-  }
+  },
 }

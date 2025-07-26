@@ -3,35 +3,35 @@
     <template #title>
       <AFlex align="center" gap="small">
         <FlowNodeIcon :icon="icon" :size="24" />
-        {{ editNodeTypeName }}
+        节点配置
       </AFlex>
     </template>
 
-    <AForm ref="formRef" class="flow-node-setter" :model="cloneNodeData" layout="vertical">
+    <AForm ref="formRef" class="flow-node-setter" :model="nodeData" layout="vertical">
       <div class="flow-node-setter-body">
         <template v-if="!state.setterProps.hideBaseInfo">
           <ARow :gutter="10">
             <ACol :span="12">
               <AFormItem class="normal-label" name="name" label="节点名称"
                 :rules="[{ required: true, message: '节点名称是必填字段' }]">
-                <AInput placeholder="请输入" v-model:value="cloneNodeData.name" :disabled="isNameEnableInput"></AInput>
+                <AInput placeholder="请输入" v-model:value="nodeData.name"></AInput>
               </AFormItem>
             </ACol>
             <ACol :span="12">
               <AFormItem class="normal-label" name="id" label="编码">
-                <AInput :value="cloneNodeData.id" disabled></AInput>
+                <AInput :value="nodeData.id" disabled></AInput>
               </AFormItem>
             </ACol>
           </ARow>
           <AFormItem class="normal-label" name="description" label="描述">
-            <ATextarea placeholder="请输入节点描述" :maxlength="200" show-count v-model:value="cloneNodeData.description">
+            <ATextarea placeholder="请输入节点描述" :maxlength="200" show-count v-model:value="nodeData.description">
             </ATextarea>
           </AFormItem>
           <ADivider class="small" />
         </template>
         <!-- 传入全量节点配置，分支节点更新需要用到 -->
         <div v-if="setterComponent">
-          <component :is="setterComponent" v-model:node="cloneNodeData" v-model:value="cloneNodeData.props"
+          <component :is="setterComponent" v-model:node="nodeData" v-model:value="nodeData.props"
             :node-info="materialInfo" />
         </div>
       </div>
@@ -46,41 +46,37 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, type Component } from 'vue'
 
 import {
-  type FormInstance,
-  message
+  message,
+  type FormInstance
 } from 'ant-design-vue'
 import { cloneDeep } from 'lodash-es'
-import type { FlowNode } from '../../types'
-import useDesignerStore from '../useDesignerStore'
-import FlowNodeIcon from './FlowNodeIcon.vue'
+import type { FlowNode } from '../types'
+import FlowNodeIcon from './flowNode/FlowNodeIcon.vue'
+import useDesignerStore from './useDesignerStore'
 const { state, setEditNode, callChangeHooks } = useDesignerStore()
 const formRef = ref<FormInstance>()
 const open = computed(() => !!state.editNode)
 // 兼容单个分支节点选中
-const data = computed(() => {
-  return state.editNode || ({} as FlowNode)
+const nodeData = ref({} as FlowNode)
+watch(open, (val) => {
+  if (val) {
+    nodeData.value = cloneDeep(state.editNode || ({} as FlowNode))
+  }
 })
-
-const materialInfo = computed(() => state.materials[data.value.type])
+const materialInfo = computed(() => state.materials[nodeData.value.type]!)
 const setterComponent = computed(() => materialInfo.value?.setter ?? null)
-const icon = computed(() => materialInfo.value?.icon)
-const editNodeTypeName = computed(() => {
-  if (materialInfo.value?.type === 'FlowStartNode') return '开始节点'
-  return '节点配置'
-})
-const cloneNodeData = ref<FlowNode>()
-const isNameEnableInput = computed(() => {
-  return ['FlowStartNode'].includes(cloneNodeData.value.type)
-})
+const icon = computed(() => materialInfo.value?.icon as Component)
+
 const handleSave = async () => {
   try {
-    await formRef.value.validateFields()
+    const res = await formRef.value?.validateFields()
+    console.log(res);
     // 调用节点配置的校验方法
     if (materialInfo.value.validator && typeof materialInfo.value.validator === 'function') {
-      const { type, messages } = materialInfo.value.validator(cloneNodeData.value, state)
+      const { type, messages } = materialInfo.value.validator(nodeData.value, state)
       if (type === 'error') {
         if (messages.length > 0) {
           message.error(messages[0])
@@ -88,35 +84,25 @@ const handleSave = async () => {
         }
       } else {
         // 提示文字修改
-        if (materialInfo.value.updateValueText && typeof materialInfo.value.updateValueText === 'function') {
-          materialInfo.value.updateValueText(cloneNodeData.value, state)
+        if (materialInfo.value.generateDescription && typeof materialInfo.value.generateDescription === 'function') {
+          nodeData.value.description = materialInfo.value.generateDescription(nodeData.value, state)
         }
       }
     }
-    Object.assign(state.editNode, cloneNodeData.value)
-    console.log(state.editNode);
-    callChangeHooks('update', cloneNodeData.value)
+    Object.assign(state.editNode as FlowNode, nodeData.value)
+    callChangeHooks('update', nodeData.value)
     handleClose()
   } catch (err: any) {
+    console.log(err);
+
     message.error(err.errorFields ? err.errorFields[0]?.errors[0] ?? '配置校验失败' : err)
   }
 }
 function handleClose() {
-  setEditNode(null, null)
+  formRef.value?.resetFields()
+  setEditNode(null, undefined)
 }
-// 初始化深拷贝一份配置
-watch(
-  data,
-  (val: any) => {
-    if (val) {
-      cloneNodeData.value = cloneDeep(val)
-    }
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-)
+
 </script>
 
 <style scoped lang="less">
@@ -135,8 +121,6 @@ watch(
 
   .flow-node-setter-body {
     flex: 1;
-    // overflow-y: auto;
-    // overflow-x: hidden; // a-row会导致滚动条？？
   }
 }
 </style>

@@ -1,6 +1,6 @@
-import Setter from './Setter.vue'
 import { type FlowMaterial } from '../../types'
-import Icon from './icon.svg'
+import Icon from './icon.svg?component'
+import Setter from './Setter.vue'
 export { default as runner } from './Runner'
 
 export const FlowOpenPageNode: FlowMaterial = {
@@ -18,10 +18,10 @@ export const FlowOpenPageNode: FlowMaterial = {
     // 页面链接(URL) 表达式
     content: {
       expression: '',
-      expressionFull: null
+      expressionFull: null,
     },
     pageUrlVariable: '', // 页面链接(URL) 变量
     pageUrlVariableType: '', // 页面链接(URL) 变量类型
     pageUrlValue: '', // 页面链接(URL) 值
-  }
+  },
 }

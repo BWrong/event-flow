@@ -1,6 +1,6 @@
-import Setter from './Setter.vue'
 import { type FlowMaterial } from '../../types'
-import Icon from './icon.svg'
+import Icon from './icon.svg?component'
+import Setter from './Setter.vue'
 export { default as runner } from './Runner'
 export const FlowUpdateServiceNode: FlowMaterial = {
   name: '更新服务调用',
@@ -9,5 +9,5 @@ export const FlowUpdateServiceNode: FlowMaterial = {
   setter: Setter,
   group: '调用',
   config: {},
-  props: {}
+  props: {},
 }

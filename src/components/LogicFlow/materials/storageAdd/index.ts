@@ -1,6 +1,6 @@
-import Setter from './Setter.vue'
 import { type FlowMaterial, type FlowNode } from '../../types'
-import Icon from './icon.svg'
+import Icon from './icon.svg?component'
+import Setter from './Setter.vue'
 export { default as runner } from './Runner'
 
 export const FlowAddStorageNode: FlowMaterial = {
@@ -12,7 +12,7 @@ export const FlowAddStorageNode: FlowMaterial = {
     const storageData = node.props.storageData
     // const keys = storageData.map(item => item.localKey)
     // const seen = new Set();
-    const duplicates = [];
+    const duplicates = []
 
     // keys.forEach((key, index) => {
     //   if (seen.has(key)) {
@@ -25,7 +25,7 @@ export const FlowAddStorageNode: FlowMaterial = {
     // });
     // return { type: duplicates.length ? 'error' : 'default', messages: [duplicates.length ? '键有重复，请重新输入' : ''] }
 
-    storageData.forEach(item => {
+    storageData.forEach((item) => {
       const _value = item.localKey
       const _method = _value.method
       if (_method === 'expression') {
@@ -44,11 +44,14 @@ export const FlowAddStorageNode: FlowMaterial = {
     })
     // console.log('duplicates', duplicates)
     // 只做是否为空校验
-    return { type: duplicates.length ? 'error' : 'default', messages: [duplicates.length ? 'key不能为空' : ''] }
+    return {
+      type: duplicates.length ? 'error' : 'default',
+      messages: [duplicates.length ? 'key不能为空' : ''],
+    }
   },
   group: '调用',
   config: {},
   props: {
     storageData: [],
-  }
+  },
 }

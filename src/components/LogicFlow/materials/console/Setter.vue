@@ -3,7 +3,7 @@
     <AFormItem class="block-item" label="日志种类" :name="['props', 'logType']"
       :rules="[{ required: true, message: '日志种类是必填字段' }]">
       <a-select style="width: 250px" placeholder="请选择" v-model:value="formState.logType">
-        <a-select-option v-for="item in logTypeOptions" :value="item.value">
+        <a-select-option v-for="item in logTypeOptions" :key="item.value" :value="item.value">
           <component class="mr-1" v-if="item.icon" :is="item.icon" :style="{ color: item.iconColor }" />
           {{ item.label }}
         </a-select-option>
@@ -21,12 +21,17 @@
 </template>
 
 <script setup lang="ts">
+import { CloseCircleOutlined, WarningOutlined } from '@ant-design/icons-vue'
 import { cloneDeep } from 'lodash-es'
 import { ref, watch } from 'vue'
-import { logTypeOptions } from '../../designer/resource/dicts'
 import { FormulaSet } from '../../designer/toolComs/formula'
 import type { EditorInfo } from '../../designer/toolComs/formula/types'
 import { FlowConsoleNode, type FlowConsoleNodeProps } from './index'
+const logTypeOptions = [
+  { label: '错误', value: 'error', icon: CloseCircleOutlined, iconColor: '#ff4d4f' },
+  { label: '警告', value: 'warning', icon: WarningOutlined, iconColor: '#faad14' },
+  { label: '日志', value: 'log', icon: WarningOutlined, iconColor: '#1677ff' },
+] as const
 const props = withDefaults(
   defineProps<{
     value: FlowConsoleNodeProps

@@ -1,6 +1,6 @@
-import Setter from './Setter.vue'
 import { type FlowMaterial } from '../../types'
-import Icon from './icon.svg'
+import Icon from './icon.svg?component'
+import Setter from './Setter.vue'
 export { default as runner } from './Runner'
 export const FlowMessageNode: FlowMaterial = {
   name: '页面消息',
@@ -14,7 +14,7 @@ export const FlowMessageNode: FlowMaterial = {
     duration: 3,
     content: {
       expression: '',
-      expressionFull: null
-    }
-  }
+      expressionFull: null,
+    },
+  },
 }

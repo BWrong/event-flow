@@ -7,7 +7,7 @@ import type {
   StructuredInfo,
   ValidateType,
 } from '../../types'
-import Icon from './icon.svg'
+import Icon from './icon.svg?component'
 import Setter from './Setter.vue'
 export { default as runner } from './Runner'
 // 变量赋值
@@ -39,7 +39,7 @@ export const FlowAssignmentNode: FlowMaterial<FlowAssignmentNodeProps> = {
     }
     return { type, messages }
   },
-  updateValueText: (node: FlowNode<FlowAssignmentNodeProps>) => {
+  description: (node: FlowNode<FlowAssignmentNodeProps>) => {
     const assignMeta = node.props
     const structured = assignMeta?.fillRules?.structured ?? []
     let text = node?.placeholderText ?? '请设置' + node.name

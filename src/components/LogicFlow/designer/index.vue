@@ -12,7 +12,7 @@
 import { computed, onBeforeUnmount, provide, watch } from 'vue';
 import type { Flow, FlowMaterialMap } from '../types';
 import FlowCanvas from './FlowCanvas.vue';
-import FlowNodeSetter from './flowNode/FlowNodeSetter.vue';
+import FlowNodeSetter from './FlowNodeSetter.vue';
 import FlowToolbar from './flowToolbar/index.vue';
 import { designerStoreInjectKey, modeInjectKey, themeInjectKey } from './injectKeys';
 import useDesignerStore from './useDesignerStore';

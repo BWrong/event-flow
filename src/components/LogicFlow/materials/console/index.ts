@@ -1,13 +1,12 @@
 import type { FlowMaterial, FlowNode, FlowNodeProps, ValidateType } from '../../types'
-import Icon from './icon.svg'
+import Icon from './icon.svg?component'
 import Setter from './Setter.vue'
 
-import type { ILogType } from '../../designer/resource/dicts/index.ts'
 export { default as runner } from './Runner'
 
 // 打印日志
 export interface FlowConsoleNodeProps extends FlowNodeProps {
-  logType?: ILogType
+  logType?: string
   content: {
     expression: string
     expressionFull: any
@@ -24,36 +23,32 @@ export const FlowConsoleNode: FlowMaterial<FlowConsoleNodeProps> = {
     allowEdit: true,
   },
   props: {
-    logType: undefined,
+    logType: 'log',
     content: {
       expression: '',
       expressionFull: '',
     },
   },
   validator: (node: FlowNode<FlowConsoleNodeProps>) => {
-    let type: ValidateType = 'default',
-      messages: string[] = []
-    // 服务调用
-    const logMeta = node.props
-    if (!node.name) {
-      type = 'error'
-      messages.push('节点名称是必填字段')
-    }
-    if (!logMeta.logType) {
-      type = 'error'
-      messages.push('日志种类未设置')
-    }
-    if (!logMeta?.content?.expression) {
-      type = 'error'
-      messages.push('消息内容未设置')
-    }
+    const type: ValidateType = 'default'
+    const messages: string[] = []
+    // // 服务调用
+    // const logMeta = node.props
+    // if (!logMeta.logType) {
+    //   type = 'error'
+    //   messages.push('日志种类未设置')
+    // }
+    // if (!logMeta?.content?.expression) {
+    //   type = 'error'
+    //   messages.push('消息内容未设置')
+    // }
     return { type, messages }
   },
-  updateValueText: (node: FlowNode<FlowConsoleNodeProps>) => {
+  generateDescription: (node: FlowNode<FlowConsoleNodeProps>) => {
     const logMeta = node.props
     let text = '请设置' + node.name
     if (logMeta.content.expression) {
-      text = '已设置'
+      text = `已设置[${logMeta.logType}]`
     }
     node.props.valueText = text
   },
