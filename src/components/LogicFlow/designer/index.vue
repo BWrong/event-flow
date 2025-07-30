@@ -2,7 +2,7 @@
   <div class="logic-flow-designer">
     <FlowToolbar v-if="showToolbar" />
     <div class="logic-flow-canvas">
-      <FlowCanvas v-model:data="designerStore.state.flowData" :zoom="designerStore.state.zoom" />
+      <FlowCanvas v-model:data="designerStore.state.flowData" />
     </div>
     <FlowNodeSetter />
   </div>
