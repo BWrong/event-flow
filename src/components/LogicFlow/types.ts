@@ -29,16 +29,9 @@ export type FlowNodeType =
   | 'FlowBranchRouter' // 分支路由节点
   | 'FlowConsoleNode'
   | 'FlowForNode'
-  | 'FlowWhileNode'
   | 'FlowAssignmentNode'
-  | 'FlowFunctionCallNode'
-  | 'FlowOpenPageNode'
   | 'FlowServiceCallNode'
   | 'FlowMessageNode'
-  | 'FlowUpdateServiceNode'
-  | 'FlowAddStorageNode'
-  | 'FlowGetStorageNode'
-  | 'FlowDeleteStorageNode'
 export interface BaseParam {
   name: string
   dataType: IDataType // TODO
