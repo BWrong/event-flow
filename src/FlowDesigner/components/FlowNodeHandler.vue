@@ -67,6 +67,12 @@ function handleAddNode(node: FlowMaterial) {
   user-select: none;
   justify-content: center;
 
+  // :deep(.ant-popover) {
+  //   left: 40px !important;
+  //   // transform: translateY(300%) !important;
+  //   // top: -180% !important;
+  // }
+
   &:before {
     content: "";
     position: absolute;

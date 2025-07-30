@@ -54,14 +54,14 @@ export interface FlowNode<P extends FlowNodeProps = FlowNodeProps, C = FlowNodeC
   children?: C[]
 }
 export type FlowNodeChildren = FlowNode | FlowBranchRouter
-// 物料相关类型定义
-export type FlowNodeRunner = (_context: any, _node: FlowNode) => Promise<any> | void
-export type FlowRunnerMap = Partial<Record<FlowNodeType, FlowNodeRunner>>
-
 export interface FlowSetterProps {
   hideBaseInfo: boolean
   [key: string]: any
 }
+// 物料相关类型定义
+export type FlowNodeRunner = (_context: any, _node: FlowNode) => Promise<any> | void
+export type FlowRunnerMap = Partial<Record<FlowNodeType, FlowNodeRunner>>
+
 export interface FlowMaterialConfig {
   isCustom?: boolean // 是否是自定义样式
   nodeAutoWidth?: true // 是否自动宽度

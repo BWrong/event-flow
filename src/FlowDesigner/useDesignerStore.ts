@@ -12,9 +12,9 @@ import {
   type ValidateInfo,
 } from './types'
 import { convertTreeToObject, guid } from './utils/helper'
-const zoomStep = 10
-const zoomMax = 200
-const zoomMin = 80
+export const zoomStep = 10
+export const zoomMax = 100
+export const zoomMin = 50
 export interface IState {
   materials: FlowMaterialMap
   mode: 'edit' | 'preview'

@@ -13,6 +13,7 @@
 import { computed, inject, onUnmounted, ref } from 'vue';
 import { designerStoreInjectKey } from '../injectKeys';
 import type { Flow } from '../types';
+import { zoomMax, zoomMin, zoomStep } from '../useDesignerStore';
 import FlowNodeChildren from './FlowNodeChildren.vue';
 
 const props = defineProps<{
@@ -46,8 +47,8 @@ const transformStyle = computed(() => ({
 const handleWheel = (e: WheelEvent) => {
   if (e.metaKey || e.ctrlKey) {
     e.preventDefault()
-    const delta = -Math.sign(e.deltaY) * 10
-    const newZoom = Math.min(Math.max(currentZoom.value + delta, 30), 200)
+    const delta = -Math.sign(e.deltaY) * zoomStep
+    const newZoom = Math.min(Math.max(currentZoom.value + delta, zoomMin), zoomMax)
 
     // 获取容器和当前缩放信息
     const container = e.currentTarget as HTMLElement
