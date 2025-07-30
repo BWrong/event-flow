@@ -94,7 +94,7 @@ function handleAddNode(node: FlowMaterial) {
   }
 
   &.hide-arrow:after {
-    display: none;
+    display: none !important;
   }
 
   .flow-node-handler {
