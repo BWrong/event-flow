@@ -242,6 +242,7 @@ const checkInfo = computed(() => {
   border-radius: 8px;
   background-color: #fff;
   cursor: pointer;
+  pointer-events: auto;
 
   .flow-node-condition-card {
     min-height: 70px;

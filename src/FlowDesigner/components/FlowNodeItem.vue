@@ -94,6 +94,7 @@ function handleCollapse() {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  pointer-events: none;
 
   &:hover :deep(.flow-node-handler) {
     transform: scale(0.4);
@@ -103,8 +104,6 @@ function handleCollapse() {
       display: none;
     }
   }
-
-
 }
 
 .flow-node-wrapper {
@@ -112,6 +111,9 @@ function handleCollapse() {
   cursor: pointer;
   width: 220px;
   margin: 0 auto;
+  pointer-events: auto;
+
+
 
   &.node-flash>.flow-node-box {
     animation: flash 1s ease infinite;

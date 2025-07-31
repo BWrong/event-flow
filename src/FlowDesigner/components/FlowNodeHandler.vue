@@ -66,6 +66,7 @@ function handleAddNode(node: FlowMaterial) {
   align-items: center;
   user-select: none;
   justify-content: center;
+  pointer-events: auto;
 
   // :deep(.ant-popover) {
   //   left: 40px !important;

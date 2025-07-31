@@ -25,5 +25,6 @@ provide(parentNodesInjectKey, computed(() => props.nodes || []))
   justify-content: center;
   align-items: center;
   width: auto;
+  pointer-events: none;
 }
 </style>

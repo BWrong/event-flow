@@ -95,6 +95,7 @@ function onOpenChange(open: boolean) {
     background: #fff;
     border-radius: 18px;
     border: 2px solid #dedede;
+    pointer-events: auto;
 
     .flow-branch-add-trigger {
       display: inline-flex;
