@@ -4,12 +4,10 @@ import type {
   FlowNodeProps,
   StructuredCondition,
   StructuredInfo,
-  ValidateType,
 } from '../../types'
 import { validateFieldSet } from '../../utils/validate'
 import Icon from './icon.svg?component'
 import Setter from './Setter.vue'
-export { default as runner } from './Runner'
 // 变量赋值
 export interface FlowAssignmentNodeProps extends FlowNodeProps {
   fillRules: StructuredInfo<StructuredCondition[]>

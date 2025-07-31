@@ -1,6 +1,7 @@
 <template>
   <div class="assign-node-config-wrapper">
-    <AFormItem class="block-item" label="赋值设置" :name="['props', 'fillRules', 'structured']">
+    <AFormItem class="block-item" label="赋值设置" :name="['props', 'fillRules', 'structured']"
+      :rules="[{ required: true, message: '赋值设置是必填字段' }]">
       <DataAssignSet v-model:value="formState.fillRules.structured" />
     </AFormItem>
   </div>
